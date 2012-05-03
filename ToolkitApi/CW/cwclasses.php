@@ -868,16 +868,10 @@ return: array of new or, if a problem, false.
 	            }
             } //(if useDefaultValues / else)
 	        
-	       if ($dim > 1) {
+            // if we use default values, employ the "dim" attribute to handle dim/array of DS.
+            // if we use real values, expect an array of arrays to exist, and dsData is the outer array to be looped through.	
+            if ($dim > 1 && !$useDefaultValues) {
 	       	
-	           // if we use default values, employ the "dim" attribute to handle dim/array of DS.
-	           // if we use real values, expect an array of arrays to exist, and dsData is the outer array to be looped through.	
-	       	
-	       	   if ($useDefaultValues) {
-	       	       // make an array out of dsData's dummy values, repeating $dim times. Below there's a loop through it..
-	       	       $dsData = array_fill(0, $dim, $dsData);
-	       	   }	
-	       	   
             	// array of identical DS'es.
             	// TODO check that count of ds values (each a ds) does not exceed dim.
 
@@ -945,7 +939,7 @@ return: array of new or, if a problem, false.
                  
 //	       	    $connection->logThis("about to add to data structure this array: " . print_r($dataValue, true));
 	            // create a ds based on individual parms gathered above.
-       	        $new = new DataStructure($dataValue, $dsName);
+       	        $new = new DataStructure($dataValue, $dsName, $dim);
 //       	        $loggableNew = (array) $new;
 		                          
             //$connection->logThis("just said new data structure: " . print_r($loggableNew, true));
